@@ -1,34 +1,36 @@
-import {Signer} from "@aws-sdk/rds-signer";
-import mysql from 'mysql2/promise';
+import { Signer } from "@aws-sdk/rds-signer";
+import { Client } from 'pg';
 
 async function createAuthToken() {
     const dbinfo = {
-
         hostname: process.env.ProxyHostName,
         port: process.env.Port,
         username: process.env.DBUserName,
         region: process.env.AWS_REGION,
-
-    }
+    };
 
     const signer = new Signer(dbinfo);
     return await signer.getAuthToken();
 }
 
-async function dbOps(cpf: string)   {
+async function dbOps(cpf: string) {
     const token = await createAuthToken();
-    let connectionConfig = {
+    const connectionConfig = {
         host: process.env.ProxyHostName,
         user: process.env.DBUserName,
         password: token,
         database: process.env.DBName,
-        ssl: 'Amazon RDS'
-    }
+        port: process.env.Port || 5432,
+        ssl: { rejectUnauthorized: false }
+    };
 
-    const conn = await mysql.createConnection(connectionConfig);
-    const [res,] = await conn.execute('select cpf from cliente where cpf = ?', cpf);
-    return res;
+    const client = new Client(connectionConfig);
+    await client.connect(); // Conecta ao banco de dados
 
+    const res = await client.query('SELECT cpf FROM cliente WHERE cpf = $1', [cpf]);
+    await client.end();
+
+    return res.rows.length > 0 ? res.rows[0].cpf : null; // Retorna o CPF se encontrado
 }
 
 exports.authorizer = async function (event) {
@@ -58,7 +60,7 @@ function generateAuthResponse(principalId, effect, methodArn) {
 }
 
 function generatePolicyDocument(effect, methodArn) {
-    if (!effect || !methodArn) return null
+    if (!effect || !methodArn) return null;
 
     const policyDocument = {
         Version: '2012-10-17',
