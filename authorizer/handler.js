@@ -26,7 +26,7 @@ async function dbOps(cpf: string)   {
     }
 
     const conn = await mysql.createConnection(connectionConfig);
-    const [res,] = await conn.execute('select count(*) from clients where cpf = ?', cpf);
+    const [res,] = await conn.execute('select cpf from cliente where cpf = ?', cpf);
     return res;
 
 }
@@ -35,13 +35,13 @@ exports.authorizer = async function (event) {
     const token = event.authorizationToken.toLowerCase();
     const methodArn = event.methodArn;
 
-    if (token !== null) {
+    if (token === null) {
         return generateAuthResponse('user', 'Allow', methodArn);
     }
 
     const result = await dbOps(token);
 
-    if (result !== undefined) {
+    if (result === token) {
         return generateAuthResponse('user', 'Allow', methodArn);
     } else {
         return generateAuthResponse('user', 'Deny', methodArn);
