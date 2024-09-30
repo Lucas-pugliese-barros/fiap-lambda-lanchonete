@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/rds-signer": "^3.658.1",
+    "mysql2": "^3.11.3"
+  }
 }

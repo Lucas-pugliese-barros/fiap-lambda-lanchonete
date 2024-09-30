@@ -33,6 +33,21 @@ Resources:
       CodeUri: ./authorizer
       Handler: handler.authorizer
       Runtime: nodejs20.x
+      Environment:
+        Variables:
+          DB_HOST: "your-db-host"
+          DB_PORT: "5432"
+          DB_USER: "your-db-username"
+          DB_PASSWORD: "your-db-password"
+          DB_NAME: "your-db-name"
+      Policies:
+        - AWSLambdaVPCAccessExecutionRole  # Allows Lambda to access the VPC
+        - Version: '2012-10-17'
+          Statement:
+            Effect: Allow
+            Action:
+              - rds-db:connect
+            Resource: "*"
   
 Outputs:
   Region:
