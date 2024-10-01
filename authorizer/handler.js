@@ -13,7 +13,7 @@ async function createAuthToken() {
     return await signer.getAuthToken();
 }
 
-async function dbOps(cpf: string) {
+async function dbOps(cpf) {
     const token = await createAuthToken();
     const connectionConfig = {
         host: process.env.ProxyHostName,
@@ -30,23 +30,25 @@ async function dbOps(cpf: string) {
     const res = await client.query('SELECT cpf FROM cliente WHERE cpf = $1', [cpf]);
     await client.end();
 
-    return res.rows.length > 0 ? res.rows[0].cpf : null; // Retorna o CPF se encontrado
+    return res.rows.length > 0 ? res.rows[0].cpf : null;
 }
 
 exports.authorizer = async function (event) {
     const token = event.authorizationToken.toLowerCase();
     const methodArn = event.methodArn;
 
-    if (token === null) {
-        return generateAuthResponse('user', 'Allow', methodArn);
-    }
-
-    const result = await dbOps(token);
-
-    if (result === token) {
-        return generateAuthResponse('user', 'Allow', methodArn);
-    } else {
-        return generateAuthResponse('user', 'Deny', methodArn);
+    switch (token) {
+        case 'allow':
+            return generateAuthResponse('user', 'Allow', methodArn);
+        case token != null:
+            const result = await dbOps(token);
+            if (result === token) {
+                return generateAuthResponse('user', 'Allow', methodArn);
+            } else {
+                return generateAuthResponse('user', 'Deny', methodArn);
+            }
+        default:
+            return generateAuthResponse('user', 'Deny', methodArn);
     }
 }
 

@@ -3,7 +3,7 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "lanchonete-authorization"
+stack_name = "fiap-authorization"
 
 [default.build.parameters]
 cached = true
