@@ -82,7 +82,7 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) Response {
 	return returnPolice("Deny")
 }
 
-func returnPolice(effect string) {
+func returnPolice(effect string) Response {
 	return Response{
 		PrincipalID: "user",
 		PolicyDocument: PolicyDocument{
@@ -95,7 +95,7 @@ func returnPolice(effect string) {
 				},
 			},
 		},
-	}, nil
+	}
 }
 
 func getEnv(key string) string {
