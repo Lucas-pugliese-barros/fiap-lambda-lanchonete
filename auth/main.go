@@ -29,7 +29,7 @@ type Statement struct {
 	Resource string `json:"Resource"`
 }
 
-func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error) {
+func Handler(request events.APIGatewayCustomAuthorizerRequest) Response {
 	cpf := request.AuthorizationToken
 
 	if cpf == "allow" {
