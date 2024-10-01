@@ -1,0 +1,113 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'lambda-fiap
+
+  Sample SAM Template for lambda-fiap
+
+  '
+Globals:
+  Function:
+    Timeout: 5
+    MemorySize: 128
+    LoggingConfig:
+      LogFormat: JSON
+Resources:
+  MyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
+      Auth:
+        DefaultAuthorizer: MyLambdaTokenAuthorizer
+        Authorizers:
+          MyLambdaTokenAuthorizer:
+            FunctionArn:
+              Fn::GetAtt:
+              - MyAuthFunction
+              - Arn
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+      SamResourceId: HelloWorldFunction
+    Properties:
+      CodeUri: HelloWorldFunction
+      Handler: hello-world
+      Runtime: provided.al2023
+      Architectures:
+      - x86_64
+      Events:
+        CatchAll:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: MyApi
+            Path: /hello
+            Method: GET
+      Environment:
+        Variables:
+          PARAM1: VALUE
+  MyAuthFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+      SamResourceId: MyAuthFunction
+    Properties:
+      CodeUri: MyAuthFunction
+      Handler: .
+      Runtime: provided.al2023
+      Architectures:
+      - x86_64
+      VpcConfig:
+        SecurityGroupIds:
+        - sg-07cd5189fff3b3e5f
+        SubnetIds:
+        - subnet-073fbedd48a949edb
+        - subnet-0306dd111f2d31e35
+        - subnet-0b961ebc9ad39675a
+        - subnet-07190ab186fbe6c21
+        - subnet-0c5a7b56ede58b1f2
+        - subnet-0f575c0ae673a7908
+      Environment:
+        Variables:
+          DB_HOST: DB_HOST
+          DB_USER: DB_USER
+          DB_PASSWORD: DB_PASSWORD
+          DB_NAME: DB_NAME
+          PARAM1: VALUE
+      Policies:
+      - AWSLambdaVPCAccessExecutionRole
+      - Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action:
+          - rds-db:connect
+          Resource: '*'
+Outputs:
+  ApiUrl:
+    Description: API endpoint URL for Prod environment
+    Value:
+      Fn::Sub: https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/dev/
+  HelloWorldFunction:
+    Description: First Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - HelloWorldFunction
+      - Arn
+  HelloWorldFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - HelloWorldFunctionRole
+      - Arn
+  MyAuthFunction:
+    Description: First Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - MyAuthFunction
+      - Arn
+  MyAuthFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value:
+      Fn::GetAtt:
+      - MyAuthFunction
+      - Arn

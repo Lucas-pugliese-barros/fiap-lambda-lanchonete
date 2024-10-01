@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-fiap
+
+  Sample SAM Template for lambda-fiap
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 5
+    MemorySize: 128
+
+    # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
+    LoggingConfig:
+      LogFormat: JSON
+Resources:
+  MyApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
+      Auth:
+        DefaultAuthorizer: MyLambdaTokenAuthorizer
+        Authorizers:
+          MyLambdaTokenAuthorizer:
+            FunctionArn: !GetAtt MyAuthFunction.Arn
+
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Metadata:
+      BuildMethod: go1.x
+    Properties:
+      CodeUri: hello-world/
+      Handler: hello-world
+      Runtime: provided.al2023
+      Architectures:
+      - x86_64
+      Events:
+        CatchAll:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            RestApiId: !Ref MyApi
+            Path: /hello
+            Method: GET
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+
+  MyAuthFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+    Properties:
+      CodeUri: auth/
+      Handler: .
+      Runtime: provided.al2023
+      Architectures:
+        - x86_64
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-07cd5189fff3b3e5f
+        SubnetIds:
+          - subnet-073fbedd48a949edb
+          - subnet-0306dd111f2d31e35
+          - subnet-0b961ebc9ad39675a
+          - subnet-07190ab186fbe6c21
+          - subnet-0c5a7b56ede58b1f2
+          - subnet-0f575c0ae673a7908
+      Environment:
+        Variables:
+          DB_HOST: "DB_HOST"
+          DB_USER: "DB_USER"
+          DB_PASSWORD: "DB_PASSWORD"
+          DB_NAME: "DB_NAME"
+          PARAM1: VALUE
+      Policies:
+        - AWSLambdaVPCAccessExecutionRole
+        - Version: '2012-10-17'
+          Statement:
+            Effect: Allow
+            Action:
+              - rds-db:connect
+            Resource: "*"
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  ApiUrl:
+    Description: "API endpoint URL for Prod environment"
+    Value: !Sub 'https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/dev/'
+  HelloWorldFunction:
+    Description: First Lambda Function ARN
+    Value: !GetAtt HelloWorldFunction.Arn
+  HelloWorldFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value: !GetAtt HelloWorldFunctionRole.Arn
+  MyAuthFunction:
+    Description: First Lambda Function ARN
+    Value: !GetAtt MyAuthFunction.Arn
+  MyAuthFunctionIamRole:
+    Description: Implicit IAM Role created for Hello World function
+    Value: !GetAtt MyAuthFunction.Arn
