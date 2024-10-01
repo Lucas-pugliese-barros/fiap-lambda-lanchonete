@@ -72,7 +72,6 @@ Resources:
           DB_USER: "DB_USER"
           DB_PASSWORD: "DB_PASSWORD"
           DB_NAME: "DB_NAME"
-          AWS_REGION: "AWS_REGION"
       Policies:
         - AWSLambdaVPCAccessExecutionRole
         - Version: '2012-10-17'
