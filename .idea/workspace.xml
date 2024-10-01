@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2459a66c-85ff-4ffe-8703-b83002f736db" name="Changes" comment="add actions for golang">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.aws-sam/build.toml" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/build.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.aws-sam/build/HelloWorldFunction/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/build/HelloWorldFunction/bootstrap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.aws-sam/build/MyAuthFunction/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/build/MyAuthFunction/bootstrap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.aws-sam/cache/92730092-f7ec-48f2-916f-947107d3cab6/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/cache/92730092-f7ec-48f2-916f-947107d3cab6/bootstrap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.aws-sam/cache/a5f29ba1-49bb-4bf5-a2cc-5e6b2b14fcd6/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/cache/a5f29ba1-49bb-4bf5-a2cc-5e6b2b14fcd6/bootstrap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/auth/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/auth/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello-world/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/hello-world/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hello-world/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/hello-world/go.sum" afterDir="false" />
-    </list>
+    <list default="true" id="2459a66c-85ff-4ffe-8703-b83002f736db" name="Changes" comment="add actions for golang" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
