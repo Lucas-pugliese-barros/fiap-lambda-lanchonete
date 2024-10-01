@@ -1,8 +1,0 @@
-packaged.yaml
-.aws-sam/
-/.idea/.gitignore
-/.idea/aws.xml
-/.idea/fiap-lambda-lanchonete.iml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/vcs.xml
