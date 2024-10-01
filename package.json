@@ -1,0 +1,17 @@
+{
+  "name": "sam-api-gateway-token-auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "stackName": "serverless-sam-api-gateway-token-auth",
+    "bucketName": "serverless-publish-sam-app"
+  },
+  "scripts": {
+    "deploy": "sam deploy",
+    "describe": "aws cloudformation describe-stacks --region us-east-1 --stack-name $npm_package_config_stackName --query 'Stacks[].Outputs'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
