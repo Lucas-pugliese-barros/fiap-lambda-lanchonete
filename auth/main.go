@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/feature/rds/auth"
 	"log"
 	"os"
 
@@ -27,28 +30,53 @@ type Statement struct {
 	Resource string `json:"Resource"`
 }
 
-var (
-	db *sql.DB
-)
-
-func init() {
-	var err error
-	db, err = sql.Open("postgres", fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable",
-		getEnv("DB_HOST"), getEnv("DB_USER"), getEnv("DB_PASSWORD"), getEnv("DB_NAME")))
-	if err != nil {
-		log.Fatalf("Error connecting to the database: %v", err)
-	}
-}
-
 func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error) {
 	cpf := request.AuthorizationToken
 	effect := "Deny"
 
 	if cpf == "allow" {
 		effect = "Allow"
-	} else if isCpfExists(cpf) {
+	}
+
+	var dbName = os.Getenv("DB_NAME")
+	var dbUser = os.Getenv("DB_USER")
+	var dbHost = os.Getenv("DB_HOST")
+	var dbPort = 5432
+	var dbEndpoint = fmt.Sprintf("%s:%d", dbHost, dbPort)
+	var region = os.Getenv("AWS_REGION")
+
+	cfg, err := config.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		panic("configuration error: " + err.Error())
+	}
+
+	authenticationToken, err := auth.BuildAuthToken(
+		context.TODO(), dbEndpoint, region, dbUser, cfg.Credentials)
+	if err != nil {
+		panic("failed to create authentication token: " + err.Error())
+	}
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true&allowCleartextPasswords=true",
+		dbUser, authenticationToken, dbEndpoint, dbName,
+	)
+
+	db, err := sql.Open("postgres", dsn)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	var count int
+	err = db.QueryRow("SELECT COUNT(*) FROM cliente WHERE cpf = $1", cpf).Scan(&count)
+	if err != nil {
+		log.Print("The client doest exists")
+		effect = "Deny"
+	}
+
+	if count > 0 {
 		effect = "Allow"
 	}
+	log.Print("The client exists")
 
 	return Response{
 		PrincipalID: "user",
@@ -64,18 +92,6 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error)
 		},
 	}, nil
 }
-
-func isCpfExists(cpf string) bool {
-	var count int
-	query := "SELECT COUNT(*) FROM cliente WHERE cpf = $1"
-	err := db.QueryRow(query, cpf).Scan(&count)
-	if err != nil {
-		log.Printf("Error querying CPF: %v", err)
-		return false
-	}
-	return count > 0
-}
-
 func getEnv(key string) string {
 	return os.Getenv(key)
 }
