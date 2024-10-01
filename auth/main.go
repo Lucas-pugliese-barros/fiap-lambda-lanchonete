@@ -31,10 +31,9 @@ type Statement struct {
 
 func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error) {
 	cpf := request.AuthorizationToken
-	effect := "Deny"
 
 	if cpf == "allow" {
-		effect = "Allow"
+		return returnPolice("Allow")
 	}
 
 	var dbName = os.Getenv("DB_NAME")
@@ -46,13 +45,15 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error)
 
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
-		panic("configuration error: " + err.Error())
+		log.Print("configuration error: " + err.Error())
+		return returnPolice("Deny")
 	}
 
 	authenticationToken, err := auth.BuildAuthToken(
 		context.TODO(), dbEndpoint, region, dbUser, cfg.Credentials)
 	if err != nil {
-		panic("failed to create authentication token: " + err.Error())
+		log.Print("failed to create authentication token: " + err.Error())
+		return returnPolice("Deny")
 	}
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true&allowCleartextPasswords=true",
@@ -61,7 +62,8 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error)
 
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
-		panic(err)
+		log.Print(err)
+		return returnPolice("Deny")
 	}
 	defer db.Close()
 
@@ -69,14 +71,18 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error)
 	err = db.QueryRow("SELECT COUNT(*) FROM cliente WHERE cpf = $1", cpf).Scan(&count)
 	if err != nil {
 		log.Print("The client doest exists")
-		effect = "Deny"
+		return returnPolice("Deny")
 	}
 
 	if count > 0 {
-		effect = "Allow"
+		log.Print("The client exists")
+		return returnPolice("Allow")
 	}
-	log.Print("The client exists")
 
+	return returnPolice("Deny")
+}
+
+func returnPolice(effect string) {
 	return Response{
 		PrincipalID: "user",
 		PolicyDocument: PolicyDocument{
@@ -91,6 +97,7 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error)
 		},
 	}, nil
 }
+
 func getEnv(key string) string {
 	return os.Getenv(key)
 }
