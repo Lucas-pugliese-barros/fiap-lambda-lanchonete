@@ -3,7 +3,7 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "lambda-fiap-auth"
+stack_name = "lambda-fiap-token"
 
 [default.build.parameters]
 cached = true
