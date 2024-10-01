@@ -44,7 +44,7 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) (Response, error)
 	cpf := request.AuthorizationToken
 	effect := "Deny"
 
-	if cpf == "" {
+	if cpf == "allow" {
 		effect = "Allow"
 	} else if isCpfExists(cpf) {
 		effect = "Allow"
