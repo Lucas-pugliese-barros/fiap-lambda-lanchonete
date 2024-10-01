@@ -5,13 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2459a66c-85ff-4ffe-8703-b83002f736db" name="Changes" comment="add actions for golang">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/fiap-lambda-lanchonete.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/lambda-fiap.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/build.toml" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/build.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/build/HelloWorldFunction/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/build/HelloWorldFunction/bootstrap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/build/MyAuthFunction/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/build/MyAuthFunction/bootstrap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/cache/92730092-f7ec-48f2-916f-947107d3cab6/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/cache/92730092-f7ec-48f2-916f-947107d3cab6/bootstrap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.aws-sam/cache/a5f29ba1-49bb-4bf5-a2cc-5e6b2b14fcd6/bootstrap" beforeDir="false" afterPath="$PROJECT_DIR$/.aws-sam/cache/a5f29ba1-49bb-4bf5-a2cc-5e6b2b14fcd6/bootstrap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/deploy.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/deploy.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/auth/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/auth/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/auth/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hello-world/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/hello-world/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hello-world/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/hello-world/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,30 +28,30 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2mpbOaJOtQCzRtwdt6tUcrLfOjS" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Makefile Target.build.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.go.formatter.settings.were.checked": "true",
-    "RunOnceActivity.go.migrated.go.modules.settings": "true",
-    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "main",
-    "go.import.settings.migrated": "true",
-    "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "/home/vinicius-nepomuceno/Documentos/fiap-lambda-lanchonete",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Makefile Target.build.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/vinicius-nepomuceno/Documentos/fiap-lambda-lanchonete&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/auth" />
