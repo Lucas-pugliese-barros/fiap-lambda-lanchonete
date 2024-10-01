@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2459a66c-85ff-4ffe-8703-b83002f736db" name="Changes" comment="add actions for golang" />
+    <list default="true" id="2459a66c-85ff-4ffe-8703-b83002f736db" name="Changes" comment="add">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +73,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add actions for golang" />
-    <option name="LAST_COMMIT_MESSAGE" value="add actions for golang" />
+    <MESSAGE value="add" />
+    <option name="LAST_COMMIT_MESSAGE" value="add" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

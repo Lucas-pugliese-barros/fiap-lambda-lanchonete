@@ -33,7 +33,7 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) Response {
 	cpf := request.AuthorizationToken
 
 	if cpf == "allow" {
-		return returnPolice("Allow")
+		return returnPolice("Allow", request.MethodArn)
 	}
 
 	var dbName = os.Getenv("DB_NAME")
@@ -46,14 +46,14 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) Response {
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		log.Print("configuration error: " + err.Error())
-		return returnPolice("Deny")
+		return returnPolice("Deny", request.MethodArn)
 	}
 
 	authenticationToken, err := auth.BuildAuthToken(
 		context.TODO(), dbEndpoint, region, dbUser, cfg.Credentials)
 	if err != nil {
 		log.Print("failed to create authentication token: " + err.Error())
-		return returnPolice("Deny")
+		return returnPolice("Deny", request.MethodArn)
 	}
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?tls=true&allowCleartextPasswords=true",
@@ -63,7 +63,7 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) Response {
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Print(err)
-		return returnPolice("Deny")
+		return returnPolice("Deny", request.MethodArn)
 	}
 	defer db.Close()
 
@@ -71,18 +71,18 @@ func Handler(request events.APIGatewayCustomAuthorizerRequest) Response {
 	err = db.QueryRow("SELECT COUNT(*) FROM cliente WHERE cpf = $1", cpf).Scan(&count)
 	if err != nil {
 		log.Print("The client doest exists")
-		return returnPolice("Deny")
+		return returnPolice("Deny", request.MethodArn)
 	}
 
 	if count > 0 {
 		log.Print("The client exists")
-		return returnPolice("Allow")
+		return returnPolice("Allow", request.MethodArn)
 	}
 
-	return returnPolice("Deny")
+	return returnPolice("Deny", request.MethodArn)
 }
 
-func returnPolice(effect string) Response {
+func returnPolice(effect, methodArn string) Response {
 	return Response{
 		PrincipalID: "user",
 		PolicyDocument: PolicyDocument{
@@ -91,7 +91,7 @@ func returnPolice(effect string) Response {
 				{
 					Action:   "execute-api:Invoke",
 					Effect:   effect,
-					Resource: request.MethodArn,
+					Resource: methodArn,
 				},
 			},
 		},
