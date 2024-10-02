@@ -3,7 +3,7 @@
 version = 0.1
 
 [default.global.parameters]
-stack_name = "lambda-fiap-auth-token"
+stack_name = "lanchonete-auth-toten"
 
 [default.build.parameters]
 cached = true
